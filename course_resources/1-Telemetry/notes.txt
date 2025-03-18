@@ -1,0 +1,1 @@
+- Kiali is not showing a static picture of your architecture; it's showing a dynamic picture of how requests are traveling between services; So if there are no requests between services, it may not show a line between 2 services even though they are meant to be connected in the overall architecture;

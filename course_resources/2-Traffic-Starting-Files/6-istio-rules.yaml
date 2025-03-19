@@ -1,19 +1,19 @@
 kind: VirtualService
 apiVersion: networking.istio.io/v1alpha3
 metadata:
-  name: fleetman-staff-service
+  name: fleetman-staff-service-virtualservice #metadata.name for virtualservice does not need to be related to a service
   namespace: default
 spec:
   hosts:
-    - fleetman-staff-service.default.svc.cluster.local
+    - fleetman-staff-service
   http:
     - route:
         - destination:
-            host: fleetman-staff-service.default.svc.cluster.local
+            host: fleetman-staff-service
             subset: safe
           weight: 90
         - destination:
-            host: fleetman-staff-service.default.svc.cluster.local
+            host: fleetman-staff-service
             subset: risky
           weight: 10
 ---

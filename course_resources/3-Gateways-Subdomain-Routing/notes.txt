@@ -1,0 +1,1 @@
+- Subdomain routing solution; yaml is cleaner, shows when the "hosts" field in virtualservice contains regular hostname instead of kubernetes service

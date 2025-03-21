@@ -1,0 +1,31 @@
+kind: VirtualService
+apiVersion: networking.istio.io/v1alpha3
+metadata:
+  name: fleetman-staff-service #metadata.name for virtualservice does not need to be related to a service
+  namespace: default
+spec:
+  hosts:
+    - fleetman-staff-service #important; The Service name (k8s) object that we're applying routing rules to
+    #- fleetman-staff-service.default.svc.cluster.local #need to use fqdn if working with a service in a different namespace
+  http:
+  - route:
+    - destination:
+        host: fleetman-staff-service #Target DNS name
+        subset: all-staff-service-pods #Defined in destination rules
+      weight: 100 #Weight: 100 not needed if only 1 destination rule
+---
+kind: DestinationRule
+apiVersion: networking.istio.io/v1alpha3
+metadata:
+  name: fleetman-staff-service #name doesn't matter
+  namespace: default
+spec:
+  host: fleetman-staff-service.default.svc.cluster.local #KUBERNETES SERVICE
+  trafficPolicy:
+    loadBalancer:
+      consistentHash:
+        useSourceIp: true
+  subsets:
+    - labels: #SELECTOR
+        app: staff-service #find pods with the label version: safe
+      name: all-staff-service-pods #group all pods with label version: safe into a group called safe

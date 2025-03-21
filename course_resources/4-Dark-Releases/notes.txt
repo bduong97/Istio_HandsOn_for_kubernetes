@@ -1,0 +1,2 @@
+- Need to do header propagation again in order for this implementation of dark releases to work
+- Dark releases are not an istio object; Need to use virtual services + destination rules, vs with some kind of matching to route to a different service

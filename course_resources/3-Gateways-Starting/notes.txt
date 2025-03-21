@@ -1,0 +1,2 @@
+- Sidecar proxies are typically responsible for weighted routing; So if trying to access the frontend from a browser, we're not going through an envoy proxy, so weighted routing rules aren't applying
+- Solution is an edge proxy, or an Istio "Gateway"

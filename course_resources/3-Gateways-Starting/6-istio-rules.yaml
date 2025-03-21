@@ -27,16 +27,22 @@ spec:
   gateways: 
   - ingress-gateway-configuration
   http:
-    - route:
-        - destination:
-            host: fleetman-webapp.default.svc.cluster.local
-            subset: original
-            #port: Not required if the target service only has a single port configured
-          weight: 90
+    - match: 
+      - uri:  #IF 
+          prefix: "/experimental"
+      - uri: #OR CONDITION
+          prefix: "/canary"
+      route: #THEN 
         - destination:
             host: fleetman-webapp.default.svc.cluster.local
             subset: experimental
-          weight: 10
+    - match: 
+      - uri:
+          prefix: "/"
+      route: #THEN 
+        - destination:
+            host: fleetman-webapp.default.svc.cluster.local
+            subset: original
 ---
 kind: DestinationRule
 apiVersion: networking.istio.io/v1alpha3

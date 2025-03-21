@@ -8,15 +8,15 @@ spec:
     - fleetman-staff-service #important; The Service name (k8s) object that we're applying routing rules to
     #- fleetman-staff-service.default.svc.cluster.local #need to use fqdn if working with a service in a different namespace
   http:
-    - route:
-        - destination:
-            host: fleetman-staff-service #Target DNS name
-            subset: safe-group #Defined in destination rules
-          weight: 90
-        - destination:
-            host: fleetman-staff-service #Target DNS name
-            subset: risky-group #Defined in destination rules
-          weight: 10
+  - route:
+    - destination:
+        host: fleetman-staff-service #Target DNS name
+        subset: safe-group #Defined in destination rules
+      weight: 50
+    - destination:
+        host: fleetman-staff-service #Target DNS name
+        subset: risky-group #Defined in destination rules
+      weight: 50
 ---
 kind: DestinationRule
 apiVersion: networking.istio.io/v1alpha3
@@ -25,6 +25,10 @@ metadata:
   namespace: default
 spec:
   host: fleetman-staff-service.default.svc.cluster.local #KUBERNETES SERVICE
+  trafficPolicy:
+    loadBalancer:
+      consistentHash:
+        useSourceIp: true
   subsets:
     - labels: #SELECTOR
         version: safe #find pods with the label version: safe

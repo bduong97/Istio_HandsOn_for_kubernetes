@@ -1,3 +1,4 @@
 - Canary release: deploy a new version of a software alongside the existing software; make that image "live" for a percentage of the time
 - Kiali puts a special label to pods labled with "app: <value>"; Helpful to stick to this notation when labeling pods for services
 - Virtual services are not replacements for services; Services are for k8s service discovery, VirtualServices are used for overriding the envoy proxies configuration in order to do stuff like traffic routing
+- Consistent hashing doesn't work with weighted routing; dont try it
